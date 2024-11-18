@@ -18,6 +18,6 @@ app.use(express.json()); // Middleware to parse JSON requests
   usersRoutes(app, database);
 
   app.listen(PORT, () => {
-    console.log(`Server running on ${PORT}`);
+    console.log(`Server running on http://34.68.160.34:${PORT}`);
   });
 })();
