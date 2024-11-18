@@ -1,33 +1,52 @@
-'use strict';
+"use strict";
 
-const express = require('express');
+const express = require("express");
+const connectToDatabase = require("./database");
+const listingsRoutes = require("./routes/listings");
+const categoriesRoutes = require("./routes/categories");
+const usersRoutes = require("./routes/users");
+
 const app = express();
 app.use(express.json());
 
+// Middleware to set content type as JSON for all responses
 app.use((req, res, next) => {
-  res.set('Content-Type', 'application/json');
+  res.set("Content-Type", "application/json");
   next();
 });
 
-const startServer = async _ => {
+// Start the server function
+const startServer = async () => {
+  try {
+    // Connect to the database
+    const database = await connectToDatabase();
 
-  const database = require("./src/database");
-  let db = await database.setup();
+    // Register routes
+    listingsRoutes(app, database);
+    categoriesRoutes(app, database);
+    usersRoutes(app, database);
 
-  const routes = require('./src/routes');
-  routes.register(app, db);
+    // Get the port from environment or default to 3000
+    const PORT = process.env.PORT;
 
-  const PORT = process.env.PORT || 8080;
-  const server = app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
-    console.log('Press Ctrl+C to quit.');
-  });
-  process.on('unhandledRejection', err => {
-    console.error(err);
-    throw err;
-  });
+    // Start the server and log the URL
+    const server = app.listen(PORT, () => {
+      console.log(`Server running on http://34.68.160.34:${PORT}`);
+      console.log("Press Ctrl+C to quit.");
+    });
 
-  return server;
-}
+    // Handle unhandled promise rejections
+    process.on("unhandledRejection", (err) => {
+      console.error(err);
+      throw err;
+    });
 
-startServer()
+    return server;
+  } catch (err) {
+    console.error("Error starting the server:", err);
+    process.exit(1); // Exit the process if an error occurs during startup
+  }
+};
+
+// Start the server
+startServer();
