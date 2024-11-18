@@ -1,10 +1,10 @@
 "use strict";
 
 const express = require("express");
-const connectToDatabase = require("./database");
-const listingsRoutes = require("./routes/listings");
-const categoriesRoutes = require("./routes/categories");
-const usersRoutes = require("./routes/users");
+const connectToDatabase = require("./src/database");
+const listingsRoutes = require("./src/routes/listings");
+const categoriesRoutes = require("./src/routes/categories");
+const usersRoutes = require("./src/routes/users");
 
 const app = express();
 app.use(express.json());
