@@ -1,7 +1,5 @@
-"use strict";
-
 const express = require("express");
-const connectToDatabase = require("./src/database");
+const connectToDatabase = require("./src/database").setup;
 const listingsRoutes = require("./src/routes/listings");
 const categoriesRoutes = require("./src/routes/categories");
 const usersRoutes = require("./src/routes/users");
@@ -15,19 +13,17 @@ app.use((req, res, next) => {
   next();
 });
 
-// Start the server function
 const startServer = async () => {
   try {
     // Connect to the database
     const database = await connectToDatabase();
 
-    // Register routes
-    listingsRoutes(app, database);
-    categoriesRoutes(app, database);
-    usersRoutes(app, database);
+    // Register routes by calling the register function
+    listingsRoutes.register(app, database);
+    categoriesRoutes.register(app, database); // Assuming similar export for categoriesRoutes
+    usersRoutes.register(app, database); // Assuming similar export for usersRoutes
 
-    // Get the port from environment or default to 3000
-    const PORT = process.env.PORT;
+    const PORT = process.env.PORT; // Default to 3000 if no port is specified
 
     // Start the server and log the URL
     const server = app.listen(PORT, () => {
@@ -44,7 +40,7 @@ const startServer = async () => {
     return server;
   } catch (err) {
     console.error("Error starting the server:", err);
-    process.exit(1); // Exit the process if an error occurs during startup
+    process.exit(1);
   }
 };
 
