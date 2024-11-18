@@ -8,7 +8,7 @@ module.exports.register = (app, database) => {
 
     app.get('/api/resources', async (req, res) => {
         let query;
-        query = database.query('SELECT * FROM rest_emp');
+        query = database.query('SELECT * FROM Listings');
 
         const records = await query;
 
