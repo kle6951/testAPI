@@ -13,11 +13,14 @@ const startServer = async (_) => {
   const database = require("./src/database");
   let db = await database.setup();
 
-  const listingRoutes = require("./src/routes/listings");
-  listingRoutes.register(app, db);
+  const listingsRoutes = require("./src/routes/listings");
+  listingsRoutes.register(app, db);
 
   const categoriesRoutes = require("./src/routes/catgories");
   categoriesRoutes.register(app, db);
+
+  const usersRoutes = require("./src/routes/users");
+  usersRoutes.register(app, db);
 
   const PORT = process.env.PORT || 8080;
   const server = app.listen(PORT, () => {
