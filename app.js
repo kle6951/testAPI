@@ -16,6 +16,9 @@ const startServer = async (_) => {
   const listingRoutes = require("./src/routes/listings");
   listingRoutes.register(app, db);
 
+  const categoriesRoutes = require("./src/routes/catgories");
+  categoriesRoutes.register(app, db);
+
   const PORT = process.env.PORT || 8080;
   const server = app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
