@@ -18,8 +18,7 @@ module.exports.register = (app, database) => {
   // POST
   app.post("/api/listings", async (req, res) => {
     try {
-      const { title, price, description, category_id, images, location } =
-        req.body;
+      const { title, price, description, category_id, images } = req.body;
 
       // Ensure required fields are present
       if (!title || !price || !category_id || !images) {
@@ -27,7 +26,7 @@ module.exports.register = (app, database) => {
       }
 
       const query = `
-        INSERT INTO Listings (title, price, description, category_id, images, location)
+        INSERT INTO Listings (title, price, description, category_id, images)
         VALUES (?, ?, ?, ?, ?, ?)
       `;
 
@@ -37,7 +36,6 @@ module.exports.register = (app, database) => {
         description,
         category_id,
         images,
-        location,
       ]);
       res
         .status(201)
