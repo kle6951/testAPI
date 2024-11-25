@@ -36,8 +36,8 @@ module.exports.register = (app, database) => {
         price,
         description,
         category_id,
-        imageJson,
-        locationJson,
+        images,
+        location,
       ]);
       res
         .status(201)
