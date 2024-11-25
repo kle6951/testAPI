@@ -27,7 +27,7 @@ module.exports.register = (app, database) => {
 
       const query = `
         INSERT INTO Listings (title, price, description, category_id, images)
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?)
       `;
 
       const result = await database.query(query, [
