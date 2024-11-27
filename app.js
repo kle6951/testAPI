@@ -16,6 +16,9 @@ const startServer = async (_) => {
   const listingsRoutes = require("./src/routes/listings");
   listingsRoutes.register(app, db);
 
+  const roomateListings = require("./src/routes/roommateListings");
+  roomateListings.register(app, db);
+
   const categoriesRoutes = require("./src/routes/catgories");
   categoriesRoutes.register(app, db);
 
