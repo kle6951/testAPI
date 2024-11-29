@@ -21,11 +21,11 @@ module.exports.register = (app, database) => {
 
     try {
       const query = `SELECT * FROM Users WHERE id = ?`;
-      const result = await database.promise().query(query, [id]);
+      const result = await database.query(query, [id]);
 
-      if (result[0].length > 0) {
+      if (result.length > 0) {
         // User found in the database
-        res.status(200).send(result[0][0]);
+        res.status(200).send(result[0]);
       } else {
         // User not found
         res.status(404).send({ error: "User not found" });
