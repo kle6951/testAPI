@@ -15,30 +15,47 @@ module.exports.register = (app, database) => {
     res.status(200).send(JSON.stringify(records)).end();
   });
 
+  // Get a user by Firebase UID (for login)
+  app.get("/api/users/:id", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const query = `SELECT * FROM Users WHERE id = ?`;
+      const result = await database.promise().query(query, [id]);
+
+      if (result[0].length > 0) {
+        // User found in the database
+        res.status(200).send(result[0][0]);
+      } else {
+        // User not found
+        res.status(404).send({ error: "User not found" });
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).send({ error: "Failed to fetch user" });
+    }
+  });
+
+  // Create a new user (for registration)
   app.post("/api/users", async (req, res) => {
     const { id, full_name, email, password } = req.body;
 
-    // Ensure all fields are provided
     if (!id || !full_name || !email || !password) {
       return res.status(400).send({ error: "All fields are required." });
     }
 
-    // Validate email format
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
       return res.status(400).send({ error: "Invalid email format." });
     }
 
     try {
-      // Check if email already exists
       const checkEmailQuery = `SELECT * FROM Users WHERE email = ?`;
       const existingUser = await database.query(checkEmailQuery, [email]);
 
       if (existingUser.length > 0) {
         return res.status(400).send({ error: "Email is already in use." });
       }
-
-      // Hash the password before saving
       const hashedPassword = await bcrypt.hash(password, saltLevel);
       const query = `INSERT INTO Users (id, full_name, email, password, created_at) VALUES (?, ?, ?, ?, NOW())`;
       const result = await database.query(query, [
