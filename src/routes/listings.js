@@ -12,13 +12,16 @@ module.exports.register = (app, database) => {
 
     const records = await query;
 
+    console.log("Fetched Records:", records);
+
     res.status(200).send(JSON.stringify(records)).end();
   });
 
   // POST
   app.post("/api/listings", async (req, res) => {
     try {
-      const { title, price, description, category_id, images, location } = req.body;
+      const { title, price, description, category_id, images, location } =
+        req.body;
 
       // Ensure required fields are present
       if (!title || !price || !category_id || !images) {
@@ -36,7 +39,7 @@ module.exports.register = (app, database) => {
         description,
         category_id,
         images,
-        location
+        location,
       ]);
       res
         .status(201)
