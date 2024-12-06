@@ -1,8 +1,6 @@
 const admin = require("firebase-admin");
-require("dotenv").config();
 
-const serviceAccountKeyPath = process.env.FIREBASE_SERVICE_ACCOUNT_KEY_PATH;
-const serviceAccount = require(serviceAccountKeyPath);
+const serviceAccount = require("./iconnect-439421-firebase-adminsdk-8yczg-609746e2b8.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
