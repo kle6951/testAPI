@@ -12,8 +12,6 @@ module.exports.register = (app, database) => {
 
     const records = await query;
 
-    console.log("Fetched Records:", records);
-
     res.status(200).send(JSON.stringify(records)).end();
   });
 
