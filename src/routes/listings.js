@@ -1,5 +1,4 @@
 "use strict";
-const authMiddleware = require("../middleware/authMiddleware");
 module.exports.register = (app, database) => {
   app.get("/", async (req, res) => {
     res.status(200).send("This is running!").end();
@@ -16,7 +15,7 @@ module.exports.register = (app, database) => {
   });
 
   // POST
-  app.post("/api/listings", authMiddleware, async (req, res) => {
+  app.post("/api/listings", async (req, res) => {
     try {
       const { title, price, description, category_id, images, location } =
         req.body;
