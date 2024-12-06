@@ -1,6 +1,6 @@
 const admin = require("firebase-admin");
 
-const serviceAccount = require("./iconnect-439421-firebase-adminsdk-8yczg-609746e2b8.json");
+const serviceAccount = require("../../firebase/iconnect-439421-firebase-adminsdk-8yczg-609746e2b8.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
