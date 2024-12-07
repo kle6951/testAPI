@@ -12,7 +12,8 @@ module.exports.register = (app, database) => {
           Listings.*,
           Users.full_name AS user_name,
           Users.email AS user_email,
-          Users.avatar AS user_avatar
+          Users.avatar AS user_avatar,
+          (SELECT COUNT(*) FROM Listings AS l WHERE l.user_id = Users.id) AS user_listing_count
         FROM Listings
         JOIN Users ON Listings.user_id = Users.id
       `;
