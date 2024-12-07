@@ -6,12 +6,24 @@ module.exports.register = (app, database) => {
 
   // GET
   app.get("/api/listings", async (req, res) => {
-    let query;
-    query = database.query("SELECT * FROM Listings");
+    try {
+      const query = `
+        SELECT 
+          Listings.*,
+          Users.full_name AS user_name,
+          Users.email AS user_email,
+          Users.avatar AS user_avatar
+        FROM Listings
+        JOIN Users ON Listings.user_id = Users.id
+      `;
 
-    const records = await query;
+      const records = await database.query(query);
 
-    res.status(200).send(JSON.stringify(records)).end();
+      res.status(200).send(JSON.stringify(records)).end();
+    } catch (error) {
+      console.error("Error fetching listings:", error.message);
+      res.status(500).send("Error fetching listings").end();
+    }
   });
 
   // POST
