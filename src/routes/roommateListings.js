@@ -14,7 +14,7 @@ module.exports.register = (app, database) => {
           Users.full_name AS user_name, 
           Users.email AS user_email, 
           Users.avatar AS user_avatar,
-          (SELECT COUNT(*) FROM RoomateListings AS rl WHERE rl.user_id = Users.id) AS user_roomate_listing_count
+          (SELECT COUNT(*) FROM RoomateListings AS rl WHERE rl.user_id = Users.id) AS user_listing_count
         FROM RoomateListings
         JOIN Users ON RoomateListings.user_id = Users.id
       `;
