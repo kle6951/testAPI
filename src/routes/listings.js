@@ -17,17 +17,24 @@ module.exports.register = (app, database) => {
   // POST
   app.post("/api/listings", async (req, res) => {
     try {
-      const { title, price, description, category_id, images, location } =
-        req.body;
+      const {
+        title,
+        price,
+        description,
+        category_id,
+        user_id,
+        images,
+        location,
+      } = req.body;
 
       // Ensure required fields are present
-      if (!title || !price || !category_id || !images) {
+      if (!title || !price || !category_id || !user_id || !images) {
         return res.status(400).send("Missing required fields").end();
       }
 
       const query = `
-        INSERT INTO Listings (title, price, description, category_id, images, location)
-        VALUES (?, ?, ?, ?, ?,?)
+        INSERT INTO Listings (title, price, description, category_id, user_id, images, location)
+        VALUES (?, ?, ?, ?, ?,?,?)
       `;
 
       const result = await database.query(query, [
@@ -35,6 +42,7 @@ module.exports.register = (app, database) => {
         price,
         description,
         category_id,
+        user_id,
         images,
         location,
       ]);
