@@ -30,7 +30,7 @@ module.exports.register = (app, database) => {
         return res.status(400).send("Missing required fields").end();
       }
       const query = `
-        INSERT INTO POSTS (caption, user_id, images)
+        INSERT INTO Posts (caption, user_id, images)
         VALUES (?,?,?)
       `;
 
