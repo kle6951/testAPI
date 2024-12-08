@@ -15,8 +15,6 @@ module.exports.register = (app, database) => {
         `;
       const records = await database.query(query);
 
-      console.log(records);
-
       res.status(200).send(JSON.stringify(records)).end();
     } catch (error) {
       console.error("Error fetching listings:", error.message);
