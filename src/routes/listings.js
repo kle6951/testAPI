@@ -31,12 +31,18 @@ module.exports.register = (app, database) => {
   app.get("/api/user/:id/listings", async (req, res) => {
     const userId = req.params.id;
     try {
+      console.log("Executing query for user_id:", userId);
       const [rows] = await database.query(
         "SELECT * FROM Listings WHERE user_id = ?",
         [userId]
       );
-      console.log(`Fetched ${rows.length} listings for user_id ${userId}`);
-      res.status(200).json(rows);
+      console.log("Rows fetched:", rows);
+
+      if (rows && rows.length > 0) {
+        res.status(200).json(rows);
+      } else {
+        res.status(404).json({ message: "No listings found for this user." });
+      }
     } catch (error) {
       console.error("Error fetching listings:", error.message);
       res.status(500).send("Error fetching listings").end();
