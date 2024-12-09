@@ -31,7 +31,7 @@ module.exports.register = (app, database) => {
   app.get("/api/user/:id/listings", async (req, res) => {
     const userId = req.params.id;
     try {
-      const [rows] = await db.query(
+      const [rows] = await database.query(
         "SELECT * FROM Listings WHERE user_id = ?",
         [userId]
       );
