@@ -36,10 +36,9 @@ module.exports.register = (app, database) => {
         "SELECT * FROM Listings WHERE user_id = ?",
         [userId]
       );
-
-      // Ensure rows is always an array
+      console.log(rows);
       const listings = Array.isArray(rows) ? rows : [rows];
-      console.log("Listings fetched:", listings);
+      // console.log("Listings fetched:", listings);
 
       if (listings.length > 0) {
         res.status(200).json(listings); // Send listings as JSON array
