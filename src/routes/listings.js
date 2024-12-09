@@ -36,10 +36,13 @@ module.exports.register = (app, database) => {
         "SELECT * FROM Listings WHERE user_id = ?",
         [userId]
       );
-      console.log("Rows fetched:", rows);
 
-      if (rows && rows.length > 0) {
-        res.status(200).json(rows);
+      // Ensure rows is always an array
+      const listings = Array.isArray(rows) ? rows : [rows];
+      console.log("Listings fetched:", listings);
+
+      if (listings.length > 0) {
+        res.status(200).json(listings); // Send listings as JSON array
       } else {
         res.status(404).json({ message: "No listings found for this user." });
       }
