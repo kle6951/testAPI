@@ -32,14 +32,14 @@ module.exports.register = (app, database) => {
     const userId = req.params.id;
     try {
       console.log("Executing query for user_id:", userId);
-      const [rows] = await database.query(
+      const query = await database.query(
         "SELECT * FROM Listings WHERE user_id = ?",
         [userId]
       );
-      console.log("Rows fetched:", rows);
+      console.log("Rows fetched:", query);
 
-      if (rows && rows.length > 0) {
-        res.status(200).json(rows);
+      if (query && query.length > 0) {
+        res.status(200).json(query);
       } else {
         res.status(404).json({ message: "No listings found for this user." });
       }
