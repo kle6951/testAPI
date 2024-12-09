@@ -28,7 +28,7 @@ module.exports.register = (app, database) => {
   });
 
   // GET listings based on user_id
-  app.get("api/user/:id/listings", async (req, res) => {
+  app.get("/api/user/:id/listings", async (req, res) => {
     const userId = req.params.id;
     try {
       const [rows] = await db.query(
