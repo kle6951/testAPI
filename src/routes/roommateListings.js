@@ -27,6 +27,20 @@ module.exports.register = (app, database) => {
       res.status(500).send("Error fetching roomate listings").end();
     }
   });
+  // GET roomate listings based on user_id
+  app.get("/api/user/:id/roomateListings", async (req, res) => {
+    const userId = req.params.id;
+    try {
+      const records = await database.query(
+        "SELECT * FROM RoomateListings WHERE user_id = ?",
+        [userId]
+      );
+      res.status(200).send(JSON.stringify(records)).end();
+    } catch (error) {
+      console.error("Error fetching listings:", error.message);
+      res.status(500).send("Error fetching listings").end();
+    }
+  });
 
   // POST
   app.post("/api/roomateListings", async (req, res) => {
