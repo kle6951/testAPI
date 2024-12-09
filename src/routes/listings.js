@@ -27,6 +27,21 @@ module.exports.register = (app, database) => {
     }
   });
 
+  // GET listings based on user_id
+  app.get("/user/:id/listings", async (req, res) => {
+    const userId = req.params.id;
+    try {
+      const [rows] = await db.query(
+        "SELECT * FROM Listings WHERE user_id = ?",
+        [userId]
+      );
+      res.status(200).send(JSON.stringify(rows)).end();
+    } catch (error) {
+      console.error("Error fetching listings:", error.message);
+      res.status(500).send("Error fetching listings").end();
+    }
+  });
+
   // POST
   app.post("/api/listings", async (req, res) => {
     try {
