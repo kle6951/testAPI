@@ -30,11 +30,20 @@ module.exports.register = (app, database) => {
   // GET listings based on user_id
   app.get("/api/user/:id/listings", async (req, res) => {
     const userId = req.params.id;
+    const query = `
+      SELECT 
+        Listings.*,
+        Users.full_name AS user_name,
+        Users.email AS user_email,
+        Users.avatar AS user_avatar,
+        (SELECT COUNT(*) FROM Listings AS rl WHERE rl.user_id = Users.id) AS user_listing_count
+      FROM Listings
+      JOIN Users ON Listings.user_id = Users.id
+      WHERE Listings.user_id = ?;
+    `;
+
     try {
-      const records = await database.query(
-        "SELECT * FROM Listings WHERE user_id = ?",
-        [userId]
-      );
+      const records = await database.query(query, [userId]);
       res.status(200).send(JSON.stringify(records)).end();
     } catch (error) {
       console.error("Error fetching listings:", error.message);
