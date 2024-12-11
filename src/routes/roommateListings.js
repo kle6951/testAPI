@@ -98,7 +98,7 @@ module.exports.register = (app, database) => {
     "/api/user/:userId/roomateListings/:roomateListingId",
     async (req, res) => {
       const userId = req.params.userId;
-      const listingId = req.params.listingId;
+      const listingId = req.params.roomateListingId;
 
       console.log("User ID:", userId);
       console.log("Listing ID:", listingId);
