@@ -99,10 +99,6 @@ module.exports.register = (app, database) => {
     async (req, res) => {
       const userId = req.params.userId;
       const listingId = req.params.roomateListingId;
-
-      console.log("User ID:", userId);
-      console.log("Listing ID:", listingId);
-
       const query = `
       DELETE FROM RoomateListings 
       WHERE id = ? AND user_id = ?;
