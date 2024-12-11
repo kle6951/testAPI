@@ -92,4 +92,33 @@ module.exports.register = (app, database) => {
       res.status(500).send("Error creating listing").end();
     }
   });
+
+  // DELETE a roomate listing
+  app.delete(
+    "/api/user/:userId/roomateListings/:roomateListingId",
+    async (req, res) => {
+      const userId = req.params.userId;
+      const listingId = req.params.listingId;
+
+      const query = `
+      DELETE FROM RoomateListings 
+      WHERE id = ? AND user_id = ?;
+    `;
+      try {
+        const result = await database.query(query, [listingId, userId]);
+
+        // Check if any rows were affected
+        if (result.affectedRows === 0) {
+          return res
+            .status(404)
+            .send("Listing not found or not authorized to delete")
+            .end();
+        }
+        res.status(200).send({ message: "Listing deleted successfully" }).end();
+      } catch (error) {
+        console.error("Error deleting listing:", error.message);
+        res.status(500).send("Error deleting listing").end();
+      }
+    }
+  );
 };
